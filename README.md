@@ -1,4 +1,4 @@
-# command_line_search
+## command_line_search
 
 This is a command to search the internet in one of  search engines: Google, Yandex and Duckduckgo and open the results in Links2. The usage is as follows:
 
