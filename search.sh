@@ -11,13 +11,13 @@ s() {
 
         if [ $search_engine_arg = 'g' ]
         then
-                links2 "https://www.google.com/search?as_q=$search_args"
+                links "https://www.google.com/search?as_q=$search_args"
         elif [ $search_engine_arg = 'y' ]
         then
-                links2 "https://www.yandex.com/search/?text=$search_args"
+                links "https://www.yandex.com/search/?text=$search_args"
         elif [ $search_engine_arg = 'd' ]
         then
-                links2 "https://duckduckgo.com/?q=$search_args&t=lm&ia=web"
+                links "https://duckduckgo.com/?q=$search_args&t=lm&ia=web"
         else
                 echo "please enter g, y, or d as your first argument"
         fi
