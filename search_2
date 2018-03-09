@@ -1,0 +1,57 @@
+#!/bin/bash 
+
+start_index=0
+
+default_text_browser=links
+default_graphical_browser=firefox
+default_engine='!ddg'
+
+text_browser=$default_text_browser
+graphical_browser=$default_graphical_browser
+engine=$default_engine
+
+browser=$text_browser
+
+while getopts "b:ge:" opt; do
+	case $opt in
+		b)
+			browser=$OPTARG
+			start_index=$start_index+2
+		;;
+		g)
+			browser=$graphical_browser
+			start_index=$start_index+1
+		;;
+		e)
+			engine="!$OPTARG"
+			start_index=$start_index+2
+		;;
+	esac
+done
+
+
+args=("$@")
+number_of_terms=${#args[@]}
+
+search_str=""
+
+for (( i=$start_index;i<$number_of_terms;i++)); do
+	arg=${args[${i}]}
+	search_str="$search_str $arg"
+done
+
+search_str="$engine$search_str"
+
+if [ "$browser" == "firefox" ]; then
+	firefox --search "$search_str"
+	echo -e "browser:\t$browser" | awk -F "\t" '{ x = $1 " "; y = $2 " "; printf "%15s\t%-20s\n",x,y}'
+elif [ "$browser" == "links" ]; then
+	links "https://duckduckgo.com/?q=$search_str"
+	echo -e "browser:\t$browser" | awk -F "\t" '{ x = $1 " "; y = $2 " "; printf "%15s\t%-20s\n",x,y}'
+else 
+	$(which $browser) "https://duckduckgo.com/?q=$search_str"
+	echo -e "browser:\t$browser" | awk -F "\t" '{ x = $1 " "; y = $2 " "; printf "%15s\t%-20s\n",x,y}'
+fi
+
+echo -e "engine:\t$engine" | awk -F "\t" '{ x = $1 " "; y = $2 " "; printf "%15s\t%-20s\n",x,y}'
+echo -e "search string:\t$search_str" | awk -F "\t" '{ x = $1 " "; y = $2 " "; printf "%15s\t%-20s\n",x,y}'
